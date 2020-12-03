@@ -1,12 +1,13 @@
-file = File.open('input.txt')
-passwords = file.readlines.map(&:chomp)
-
 # Test Input
 # passwords = [
 #     '1-3 a: abcde',
 #     '1-3 b: cdefg',
 #     '2-9 c: ccccccccc',
 # ]
+
+file = File.open('input.txt')
+passwords = file.readlines.map(&:chomp)
+
 
 def pt_1(passwords)
     valid_passwords = 0

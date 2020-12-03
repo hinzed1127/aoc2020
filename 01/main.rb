@@ -1,3 +1,13 @@
+# Test Input
+# expense_entries = [
+#     1721,
+#     979,
+#     366,
+#     299,
+#     675,
+#     1456,
+# ]
+
 # read input from file, create array
 file = File.open('input.txt')
 expense_entries = file.readlines.map{ |num| num.chomp.to_i }
