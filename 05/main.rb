@@ -24,9 +24,27 @@ end
 
 def pt_1(seats)
     max_seat_id = 0
-    seats.each{ |seat| max_seat_id = [max_seat_id, calc_seat_id(seat)].max }
-    
+    seats.map{ |seat| max_seat_id = [max_seat_id, calc_seat_id(seat)].max }
+
     p max_seat_id
+end
+
+def pt_2(seats)
+    seat_ids = seats.map{ |seat| calc_seat_id(seat) }.sort
+
+    seat_ids.each_with_index do |seat, idx|
+        if (idx == 0) || (idx == seat_ids.length - 1)
+            next
+        end
+
+        if seat_ids[idx - 1] != seat - 1
+            p seat - 1
+            break
+        elsif seat_ids[idx + 1] != seat + 1
+            p seat + 1
+            break
+        end
+    end
 end
         
 
@@ -36,3 +54,4 @@ end
 # calc_seat_id('BBFFBBFRLL') # => 820
 
 pt_1(seats)
+pt_2(seats)
