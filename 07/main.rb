@@ -92,8 +92,8 @@ def pt_2(graph, gold_bag_vertex)
     p total_bags
 end
 
-file = File.open('test_input_pt_2.txt') # => 126
-file = File.open('test_input.txt') # => 32
+# file = File.open('test_input_pt_2.txt') # => 126
+# file = File.open('test_input.txt') # => 32
 file = File.open('input.txt') 
 
 rules = file.readlines.map{ |line| line.split('contain').map(&:strip) }
@@ -104,8 +104,10 @@ rules.each do |line|
 end
 
 graph = build_graph(rules)
-# delete gold bag to avoid off-by-one counting error in pt 1s EDIT: not necessary
+# EDIT: previously I deleted the gold bag to avoid a off-by-one counting error in pt_1,
+# but this wasn't necessary
 # Q: are there scenarios in which it would contribute to an off-by-one error"
+# A: I don't think so, unless a gold bag can contain itself?
 gold_bag_vertex = graph.vertices['shiny gold bag']
 
 pt_1(graph)
