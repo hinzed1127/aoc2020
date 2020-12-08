@@ -4,18 +4,16 @@
 #     '1-3 b: cdefg',
 #     '2-9 c: ccccccccc',
 # ]
-file = File.open("input.txt")
+file = File.open('input.txt')
 passwords = file.readlines.map(&:chomp)
 
 def pt_1(passwords)
     valid_passwords = 0
 
     passwords.each do |entry|
-        validation, pw = entry.split(':')
-        pw.strip!
-        limit, char = validation.split(' ')
-        # min, max = limit.split('-').map{ |x| x.to_i }
-        min, max = limit.split('-').map(&:to_i)
+        min, max, char, pw = entry.match(/^(\d+)-(\d+) ([a-z]): ([a-z]+)$/).captures
+        min = min.to_i
+        max = max.to_i
         
         char_count = pw.count(char)
         if char_count >= min && char_count <= max
@@ -29,10 +27,9 @@ def pt_2(passwords)
     valid_passwords = 0
 
     passwords.each do |entry|
-        validation, pw = entry.split(':')
-        pw.strip!
-        indices, char = validation.split(' ')
-        idx1, idx2 = indices.split('-').map(&:to_i)
+        idx1, idx2, char, pw = entry.match(/^(\d+)-(\d+) ([a-z]): ([a-z]+)$/).captures
+        idx1 = idx1.to_i
+        idx2 = idx2.to_i
         
         match_1 = pw[idx1 - 1] == char
         match_2 = pw[idx2 - 1] == char
