@@ -18,14 +18,14 @@ lines.each do |line|
     instructions << [op, arg.to_i]
 end
 
-def program(instructions, return_acc = false)
+def program(instructions, return_acc_early = false)
     acc = 0
     visited_indices = []
     curr_idx = 0
 
     until curr_idx == instructions.length
         if visited_indices[curr_idx]
-            return return_acc ? acc : "CORRUPTED"
+            return return_acc_early ? acc : "CORRUPTED"
         else
             visited_indices[curr_idx] = true
         end
