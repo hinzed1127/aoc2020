@@ -18,39 +18,14 @@ lines.each do |line|
     instructions << [op, arg.to_i]
 end
 
-def pt_1(instructions)
-    acc = 0
-    visited_indices = []
-    curr_idx = 0
-
-    until visited_indices[curr_idx]
-        visited_indices[curr_idx] = true
-        op, arg = instructions[curr_idx]
-
-        case op
-        when "nop"
-            nil
-        when "acc"
-            acc += arg
-        when "jmp"
-            curr_idx += arg
-            next
-        end
-
-        curr_idx += 1
-    end
-
-    p acc
-end
-
-def program(instructions)
+def program(instructions, return_acc = false)
     acc = 0
     visited_indices = []
     curr_idx = 0
 
     until curr_idx == instructions.length
         if visited_indices[curr_idx]
-            return "CORRUPTED"
+            return return_acc ? acc : "CORRUPTED"
         else
             visited_indices[curr_idx] = true
         end
@@ -70,6 +45,10 @@ def program(instructions)
     end
 
     acc
+end
+
+def pt_1(instructions)
+    p program(instructions, true)
 end
 
 # Fix the program so that it terminates normally by changing exactly one jmp (to nop) or nop (to jmp).
@@ -105,10 +84,3 @@ end
 
 pt_1(instructions) # => 2080
 pt_2(instructions) # => 2477
-
-# wrong answers for pt 2 - return the FIRST one
-# 1219 - too low
-# 1381 - too low
-# 1631 - too low
-# 2570
-
