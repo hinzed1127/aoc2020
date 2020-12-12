@@ -27,53 +27,16 @@ def pt_1(ratings)
     three_jolt_diffs += 1
     device_joltage += 3
 
-    results = <<~EOS
-        1-jolt diffs: #{one_jolt_diffs}
-        3-jolt difs: #{three_jolt_diffs}
-        Final voltage: #{device_joltage}
-    EOS
-
-    # puts results
+    # puts <<~EOS
+    #     1-jolt diffs: #{one_jolt_diffs}
+    #     3-jolt difs: #{three_jolt_diffs}
+    #     Final voltage: #{device_joltage}
+    # EOS
 
     p one_jolt_diffs * three_jolt_diffs
 end
 
-def pt_2(ratings, device_joltage = 0)
-    # stoppage = gets
-    uniq_arrangements = 0
-    ratings = ratings.sort
-    # return 0 if device_joltage >= 5
-    puts <<~EOS
-    Ratings: #{ratings}
-    Current joltage: #{device_joltage}
-    EOS
-
-
-    while ratings.length != 0
-        adapter_ratings = ratings.select{|rating| (rating - device_joltage) <= 3}
-        puts "Current joltage (loop): #{device_joltage}"
-        puts "Adapter ratings: #{adapter_ratings}"
-
-        if adapter_ratings.length > 1
-            uniq_arrangements += adapter_ratings.length
-            adapter_ratings.each_with_index do |rating, idx|
-                puts "Ratings index: #{idx}"
-                device_joltage = rating
-                # p ratings.drop(idx+1)
-                uniq_arrangements = 1 + pt_2(ratings.drop(idx+1), device_joltage)
-                puts "Arrangements: #{uniq_arrangements}"
-                # return if uniq_arrangements > 10
-            end
-        else
-            device_joltage = adapter_ratings.min
-            ratings = ratings.drop(1)
-        end
-    end
-
-    uniq_arrangements + 1
-end
-
-def take_2(ratings)
+def pt_2(ratings)
     ratings.prepend(0)
     ratings.append(ratings.last+3)
     length_to_permutations = {1 => 1, 2 => 1, 3 => 2, 4 => 4, 5 => 7}
@@ -94,16 +57,8 @@ def take_2(ratings)
     p groups.inject(:*)
 end
 
-# pt_1(input.clone)
+pt_1(input.clone)
 
-# pt_2(test_input.clone)
-# p test_input.sort
-# p test_input.sort.drop(0)
-# p test_input_2.sort
-take_2(test_input.sort)
-take_2(test_input_2.sort)
-take_2(input.sort)
-
-
-# pt_2(input)
-# p input.sort
+# pt_2(test_input.sort)
+# pt_2(test_input_2.sort)
+pt_2(input.sort)
