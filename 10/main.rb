@@ -27,11 +27,11 @@ def pt_1(ratings)
     three_jolt_diffs += 1
     device_joltage += 3
 
-    # puts <<~EOS
+    # puts <<~RESULTS
     #     1-jolt diffs: #{one_jolt_diffs}
     #     3-jolt difs: #{three_jolt_diffs}
     #     Final voltage: #{device_joltage}
-    # EOS
+    # RESULTS
 
     p one_jolt_diffs * three_jolt_diffs
 end
