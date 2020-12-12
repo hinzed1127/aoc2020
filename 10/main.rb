@@ -48,12 +48,12 @@ def pt_2(ratings)
 
         current_group << rating
         if (ratings[idx+1] - rating) == 3
-            # groups << current_group
             groups << length_to_permutations[current_group.length]
             current_group = []
         end
     end
 
+    # multiply all subset permutations for total
     p groups.inject(:*)
 end
 
