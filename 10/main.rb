@@ -40,7 +40,7 @@ def pt_2(ratings)
     ratings.prepend(0)
     ratings.append(ratings.last+3)
     length_to_permutations = {1 => 1, 2 => 1, 3 => 2, 4 => 4, 5 => 7}
-    groups = []
+    permutations = []
     current_group = []
 
     ratings.each_with_index do |rating, idx|
@@ -48,13 +48,13 @@ def pt_2(ratings)
 
         current_group << rating
         if (ratings[idx+1] - rating) == 3
-            groups << length_to_permutations[current_group.length]
+            permutations << length_to_permutations[current_group.length]
             current_group = []
         end
     end
 
     # multiply all subset permutations for total
-    p groups.inject(:*)
+    p permutations.inject(:*)
 end
 
 pt_1(input.clone)
