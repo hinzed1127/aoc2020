@@ -7,7 +7,7 @@ sample_input = <<~TEST
 TEST
 
 actions = sample_input.split("\n").map{ |action| action.match(/(N|S|E|W|F|R|L)(\d+)/).captures }
-# actions = File.open("input.txt").readlines(&:strip).map{ |action| action.match(/(N|S|E|W|F|R|L)(\d+)/).captures }
+actions = File.open("input.txt").readlines(&:strip).map{ |action| action.match(/(N|S|E|W|F|R|L)(\d+)/).captures }
 actions.each{|action| action[1] = action[1].to_i}
 
 def pt_2(actions)
@@ -17,36 +17,34 @@ def pt_2(actions)
     waypoint_lon = 10
     waypoint_lat_diff = 1
     waypoint_lon_diff = 10
-    waypoint_lat_face = "N"
-    waypoint_lon_face = "E"
-    waypoint_face = "E"
+    # waypoint_quadrant = 1
     # modify cardinal directions for rotational shifts
-    directions = %w(N E S W)
+    quadrants = [1, 2, 3, 4]
 
     actions.each do |action|
         direction, magnitude = action
-        puts "#{direction}, #{magnitude}"
+        # puts "#{direction}, #{magnitude}"
 
         if ["L", "R"].include?(direction)
-            puts "ROTATE"
-            # switch everthing to R to simplify transforms
-            magnitude = (magnitude * -1) + 360 if direction == "L"
-
-            curr_lat_idx = directions.index(waypoint_lat_face)
-            curr_lon_idx = directions.index(waypoint_lon_face)
-            curr_idx = directions.index(waypoint_face)
-
-            
+            # puts "ROTATE"
+            # switch everthing to R to simplify transforms            
             magnitude *= -1 if direction == "L"
 
-            shift = magnitude/90
-            # puts shift, curr_lat_idx, curr_lon_idx
-            waypoint_lat_face = directions[(curr_lat_idx + shift) % 4]
-            waypoint_lon_face = directions[(curr_lon_idx + shift) % 4]
-            waypoint_face = directions[(curr_idx + shift) % 4]
-            puts "Ship: #{ship_lon}, #{ship_lat}"
-            puts "Waypoint: #{waypoint_lon_diff} #{waypoint_lon_face},  #{waypoint_lat_diff} #{waypoint_lat_face}"
-            puts "------------------------------------------"
+            shift = (magnitude/90) % 4
+            # waypoint_quadrant = quadrants[(curr_idx + shift) % 4]
+
+            case shift
+            when 1
+                waypoint_lat_diff, waypoint_lon_diff = -waypoint_lon_diff, waypoint_lat_diff
+            when 2
+                waypoint_lat_diff, waypoint_lon_diff = -waypoint_lat_diff, -waypoint_lon_diff
+            when 3
+                waypoint_lat_diff, waypoint_lon_diff = waypoint_lon_diff, -waypoint_lat_diff
+            end
+
+            # puts "Ship: #{ship_lon}, #{ship_lat}"
+            # puts "Waypoint: #{waypoint_lon_diff},  #{waypoint_lat_diff}"
+            # puts "------------------------------------------"
             next
         end
 
@@ -54,13 +52,11 @@ def pt_2(actions)
         when "F"
             # puts "FORWARD #{waypoint_lat_face}"
             # puts "Lat face: #{waypoint_lat_face}, Lon face: #{waypoint_lon_face}"
-            puts (magnitude * waypoint_lat_diff * (waypoint_lat_face == 'N' ? 1 : -1))
-            puts (magnitude * waypoint_lon_diff * (waypoint_lon_face == 'E' ? 1 : -1))
-            ship_lat += (magnitude * waypoint_lat_diff * (waypoint_lat.positive? ? 1 : -1))
-            ship_lon += (magnitude * waypoint_lon_diff * (waypoint_lon.positive? ? 1 : -1))
+            ship_lat += (magnitude * waypoint_lat_diff)
+            ship_lon += (magnitude * waypoint_lon_diff)
             # I don't think I actually need to track the waypoint coordinates, just the diff
-            waypoint_lat = ship_lat + waypoint_lat_diff * (waypoint_lat == "N" ? 1 : -1)
-            waypoint_lon = ship_lon + waypoint_lon_diff * (waypoint_lon == "E" ? 1 : -1)
+            waypoint_lat = ship_lat + waypoint_lat_diff
+            waypoint_lon = ship_lon + waypoint_lon_diff
         when "N"
             waypoint_lat_diff += magnitude
         when "S"
@@ -71,9 +67,9 @@ def pt_2(actions)
             waypoint_lon_diff -= magnitude
         end
 
-        puts "Ship:     #{ship_lon}, #{ship_lat}"
-        puts "Waypoint: #{waypoint_lon_diff} #{waypoint_lon_face}, #{waypoint_lat_diff} #{waypoint_lat_face}"
-        puts "------------------------------------------"
+        # puts "Ship:     #{ship_lon}, #{ship_lat}"
+        # puts "Waypoint: #{waypoint_lon_diff},  #{waypoint_lat_diff}"
+        # puts "------------------------------------------"
     end
 
     p ship_lat.abs + ship_lon.abs
