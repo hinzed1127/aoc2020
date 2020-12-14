@@ -42,7 +42,7 @@ def visibly_occupied(seats, row_idx, col_idx)
     columns = seats[0].length
     max_length = [rows, columns].max
 
-    is_space_seat = Proc.new do |next_space|
+    is_space_a_seat = Proc.new do |next_space|
         is_seat = false
     
         if next_space == "#"
@@ -58,42 +58,42 @@ def visibly_occupied(seats, row_idx, col_idx)
     # North
     (1..max_length).each do |i|
         break if row_idx - i < 0
-        break if is_space_seat.call(seats[row_idx - i][col_idx])
+        break if is_space_a_seat.call(seats[row_idx - i][col_idx])
     end
     # Northeast
     (1..max_length).each do |i|
         break if (row_idx - i < 0) || (col_idx + i >= columns)
-        break if is_space_seat.call(seats[row_idx - i][col_idx + i])
+        break if is_space_a_seat.call(seats[row_idx - i][col_idx + i])
     end
     # East
     (1..max_length).each do |i|
         break if col_idx + i >= columns
-        break if is_space_seat.call(seats[row_idx][col_idx + i])
+        break if is_space_a_seat.call(seats[row_idx][col_idx + i])
     end
     # Southeast
     (1..max_length).each do |i|
         break if (row_idx + i >= rows) || (col_idx + 1 >= columns)
-        break if is_space_seat.call(seats[row_idx + i][col_idx + i])
+        break if is_space_a_seat.call(seats[row_idx + i][col_idx + i])
     end
     # South
     (1..max_length).each do |i|
         break if row_idx + i >= rows
-        break if is_space_seat.call(seats[row_idx +  i][col_idx])
+        break if is_space_a_seat.call(seats[row_idx +  i][col_idx])
     end
     # Southwest
     (1..max_length).each do |i|
         break if (row_idx + i >= rows) || (col_idx - i < 0)
-        break if is_space_seat.call(seats[row_idx + i][col_idx - i])
+        break if is_space_a_seat.call(seats[row_idx + i][col_idx - i])
     end
     # West
     (1..max_length).each do |i|
         break if col_idx - i < 0
-        break if is_space_seat.call(seats[row_idx][col_idx - i])
+        break if is_space_a_seat.call(seats[row_idx][col_idx - i])
     end
     # Northwest
     (1..max_length).each do |i|
         break if (row_idx - i < 0) || (col_idx - i < 0)
-        break if is_space_seat.call(seats[row_idx - i][col_idx - i])
+        break if is_space_a_seat.call(seats[row_idx - i][col_idx - i])
     end  
 
     occupied_neighbors
