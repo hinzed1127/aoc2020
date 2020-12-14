@@ -1,12 +1,12 @@
-sample_input = <<~TEST
-    F10
-    N3
-    F7
-    R90
-    F11
-TEST
+# sample_input = <<~TEST
+#     F10
+#     N3
+#     F7
+#     R90
+#     F11
+# TEST
 
-actions = sample_input.split("\n").map{ |action| action.match(/(N|S|E|W|F|R|L)(\d+)/).captures }
+# actions = sample_input.split("\n").map{ |action| action.match(/(N|S|E|W|F|R|L)(\d+)/).captures }
 actions = File.open("input.txt").readlines(&:strip).map{ |action| action.match(/(N|S|E|W|F|R|L)(\d+)/).captures }
 actions.each{|action| action[1] = action[1].to_i}
 
