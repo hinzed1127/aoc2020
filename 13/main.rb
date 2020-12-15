@@ -28,31 +28,30 @@ def pt_1(notes)
     puts "#{shortest_wait}, #{shortest_wait.inject(:*)}"
 end
 
+# https://www.reddit.com/r/adventofcode/comments/kczahw/2020_day_13_part_2_python_extremely_fast/
 def pt_2(buses)
-    buses = buses.split(",").map{ |bus| bus.to_i.nonzero? ? bus.to_i : bus}
+    buses = buses.split(",").map.with_index do |bus, idx|
+        next if bus == "x"
+        bus = bus.to_i
+        [bus, (bus - idx) % bus]
+    end
+    buses.reject!(&:nil?)
+    
+    timestamp = 0
+    increment = 1
 
-    acc = buses[0]
-    time = acc
-    found_time = false
-
-    loop do
-        # p time
-        buses.each_with_index do |bus_num, idx|
-            next if bus_num == "x"
-
-            break if (time + idx) % bus_num != 0 
-
-            found_time = true if (idx == buses.length - 1)
+    buses.each do |bus|
+        bus_number, remainder = bus
+        while timestamp % bus_number != remainder
+            timestamp += increment
         end
-
-        break if found_time
-        time += acc
+        increment *= bus_number
     end
 
-    puts time
+    puts timestamp
 end
 
-pt_1(notes)
+# pt_1(notes)
 
 # Test inputs for part 2
 pt_2(test_input[1]) # => 1068781
@@ -62,4 +61,4 @@ pt_2("67,x,7,59,61") # => 779210.
 pt_2("67,7,x,59,61") # => 1261476.
 pt_2("1789,37,47,1889") # => 1202161486.
 
-# pt_2(notes[1])
+pt_2(notes[1])
