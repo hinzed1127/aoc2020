@@ -35,16 +35,19 @@ def pt_2(buses)
         bus = bus.to_i
         [bus, (bus - idx) % bus]
     end
-    buses.reject!(&:nil?)
+    buses.reject!(&:nil?) # remove the "x"s that became nils
     
     timestamp = 0
     increment = 1
-
+    p timestamp
     buses.each do |bus|
+        p bus
         bus_number, remainder = bus
         while timestamp % bus_number != remainder
             timestamp += increment
+            p timestamp
         end
+        
         increment *= bus_number
     end
 
@@ -55,10 +58,10 @@ end
 
 # Test inputs for part 2
 pt_2(test_input[1]) # => 1068781
-pt_2("17,x,13,19") # => 3417.
-pt_2("67,7,59,61") # => 754018.
-pt_2("67,x,7,59,61") # => 779210.
-pt_2("67,7,x,59,61") # => 1261476.
-pt_2("1789,37,47,1889") # => 1202161486.
+# pt_2("17,x,13,19") # => 3417.
+# pt_2("67,7,59,61") # => 754018.
+# pt_2("67,x,7,59,61") # => 779210.
+# pt_2("67,7,x,59,61") # => 1261476.
+# pt_2("1789,37,47,1889") # => 1202161486.
 
-pt_2(notes[1])
+# pt_2(notes[1])
